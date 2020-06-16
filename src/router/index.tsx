@@ -12,7 +12,7 @@ const AppRouter:React.FC = ()=>{
     return (
         <Router>
             <Switch>
-                <Route exact path="/" component={()=><Header/>}/>
+                <Route exact path="/" render={(props)=><Header {...props}/>}/>
                 <Route render={()=> <Link to="/">go home</Link>} />
             </Switch>
             <Switch>

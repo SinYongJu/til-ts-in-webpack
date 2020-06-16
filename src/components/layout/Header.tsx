@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-const Header:React.FC = (props)=> {
+const Header:React.FC<object> = (props)=> {
     console.log(props)
     return (
         <header>
