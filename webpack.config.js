@@ -5,7 +5,7 @@ module.exports = {
   mode: "development",
   // 파일 내역 입력
   entry: {
-    app: "./src/index.ts"
+    app: "./src/index.tsx"
   },
   // 파일 번들 내역 출력
   output: {
@@ -15,9 +15,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.ts?$/,
+        test: /\.ts(x?)$/,
         use: "ts-loader",
         exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
       }
     ]
   },
