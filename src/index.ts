@@ -1,90 +1,41 @@
-import { setStyles,querySelect, Style } from "./util/index";
-// app context
+import { setStyles,querySelect,toPixel, Style } from "./util/index";
+import Rect from "./rect";
+// constants
+const SPEED = 50/1000
+const APP_WIDTH = 800
+const APP_HEIGHT = 500
+const APP_MARGIN = 20
+const BOX_INIT_WIDTH = 50
+// els
 const body = querySelect("body")
 const appCtx = querySelect("#app")
 const deleteButton = querySelect("#btn_delete")
 const startButton = querySelect("#btn_start")
 const initButton = querySelect("#btn_init")
+const btnManipulate = querySelect("#btn_manipulate")
 
-
+const INIT_OBJ = {
+  ctx : appCtx,
+  width: APP_WIDTH,
+  height: APP_HEIGHT,
+  boxWidth: BOX_INIT_WIDTH
+}
 
 const APP_STYLE:Style = {
   position: 'relative',
-  width: '800px',
-  height: '500px',
-  margin: '20px',
+  width: toPixel(APP_WIDTH),
+  height: toPixel(APP_HEIGHT),
+  margin: toPixel(APP_MARGIN),
   backgroundColor: '#fff'
 }
 const BODY_STYLE:Style = {
   backgroundColor: '#eee',
   margin:'0',
   padding:'0'
-}
+} 
+// animate 기능
 
-const RECT_STYLE:Style = {
-  position: 'absolute',
-  backgroundColor: 'red',
-  margin:'0',
-  padding:'0',
-  width:'50px',
-  height:'50px'
-}
 let moveId:NodeJS.Timeout=null;
-const appWidth = parseInt(APP_STYLE.width.split('px')[0])
-const appHeight = parseInt(APP_STYLE.height.split('px')[0])
-
-interface Poistion {
-  x:number,
-  y:number
-}
-
-interface Box {
-  el : HTMLElement,
-  dx : number 
-  dy : number
-  position : Poistion
-}
-
-class Rect {
-  rects : Array<Box> =[]
-  width : number
-  height : number
-  constructor(width:number,height:number){
-    this.width = width
-    this.height = height
-  }
-  createRect ({x, y}:Poistion) {
-    let div:HTMLDivElement = document.createElement('div')
-    setStyles(div,RECT_STYLE)
-    div.style.top = x +"px"
-    div.style.left = y +"px"
-    this.rects.push({el : div, position :{x,y}, dx :1, dy:1})
-  }
-  appendRect () {
-    this.rects.forEach(rect =>{
-      appCtx.appendChild(rect.el)
-    })
-  }
-  update(){
-    this.rects.forEach(rect =>{
-      rect.position.x +=rect.dx
-      rect.position.y +=rect.dy
-
-      
-      if(rect.position.x < 0 || rect.position.x > this.width - 50){
-        rect.dx = -rect.dx
-      }
-      if(rect.position.y < 0 || rect.position.y > this.height - 50){
-        rect.dy = -rect.dy
-      }
-      
-
-      setStyles(rect.el,{left : rect.position.x +'px', top: rect.position.y +'px'})
-    })
-  }
-}
-
-
 const move = (callback:Function,time:number) => {
   return () => {
     if(moveId === null) moveId = setInterval(()=>{
@@ -93,24 +44,36 @@ const move = (callback:Function,time:number) => {
     },time)
   }
 }
-
-const deleteInterval=(event:Event) => {
+const deleteInterval=() => {
   if(moveId !== null) {
     clearInterval(moveId)
     moveId = null
   }  
 }
 
-function init():void{
-  setStyles(body, BODY_STYLE)
-  setStyles(appCtx, APP_STYLE)
-  let boxes = new Rect(appWidth,appHeight)
-  boxes.createRect({ x:0,y:0})
+const init = (boxes: Rect) => {
+  deleteInterval()
+  boxes.delete()
+  boxes.setBoxWidth(BOX_INIT_WIDTH)
+  boxes.setHeight(APP_HEIGHT)
+  boxes.setWidth(APP_WIDTH)
+  boxes.createRect({ x:0,y:0},{ dx:1,dy:1})
   boxes.appendRect()
-  startButton.addEventListener('click',move(boxes.update.bind(boxes),60/1000))
-  deleteButton.addEventListener('click',deleteInterval)
-  // initButton.addEventListener('click',deleteInterval)
 }
 
-init()
+
+function main():void{
+  setStyles(body, BODY_STYLE)
+  setStyles(appCtx, APP_STYLE)
+  let boxes= new Rect({...INIT_OBJ})
+  boxes.createRect({ x:0,y:0},{ dx:1,dy:1})
+  boxes.appendRect()
+
+  startButton.addEventListener('click',move(boxes.update.bind(boxes),SPEED))
+  deleteButton.addEventListener('click',deleteInterval)
+  initButton.addEventListener('click',init.bind(null,boxes))
+  btnManipulate.addEventListener('click',boxes.manipulate.bind(boxes))
+}
+
+main()
 

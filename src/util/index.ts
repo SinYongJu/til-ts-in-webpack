@@ -10,6 +10,10 @@ export function setStyles (el : HTMLElement, style : Style){
 }
 
 
+export function toPixel (px:number) : string {
+    return px+'px'
+}
+
 export function querySelect (selector:string) : HTMLElement {
     return document.querySelector<HTMLElement>(selector)
 }
