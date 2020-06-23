@@ -1,58 +1,32 @@
 import * as React from 'react';
 import styled from 'styled-components';
-
-interface InputProps {
-    id: string
-    onChange : (event: React.ChangeEvent<HTMLInputElement>) => void
-    error: boolean
-    // className?:string
-    placeHolder?: string
-    name?: string
-    type?: string
-}
-
-interface LabelProps{
-    children ?: React.ReactChild,
-    htmlFor : string,
-}
-
+import Input, { InputProps } from './form/Input';
+import Label from './form/Label';
 
 interface TextInputProps{
     children ?: React.ReactChild,
     className ?: string,
     input : InputProps,
 }
-
-
-const InputContainer = styled.div<object>`
-    ::after{
-        clear:both;
-        display:block;
-        height:0;
-        content:''
-    }
-`
-const WrapInput = styled.div<any>`
+const InputContainer = styled.div``
+const WrapInput = styled.div`
     overflow:hidden;    
 `
-const Label = styled.label<LabelProps>`
+const TextInputLabel = styled(Label)`
     float:left;
 `
-const Input = styled.input<InputProps>`
-    width:100%;
-    box-sizing: border-box;
-    border:1px solid;
-    border-color : ${props => props.error ? 'red' : '#eee'}
-`
-const TextInput:React.FC<TextInputProps> = ({children, input, ...props}) => {
+const TextInputBox:React.FC<TextInputProps> = ({children, input, ...props}) => {
     return (
         <InputContainer {...props}>
-            <Label htmlFor={input.id}>{children}</Label>
+            <TextInputLabel htmlFor={input.id}>{children}</TextInputLabel>
            <WrapInput className="wrap_input">
             <Input {...input}/>
            </WrapInput>
         </InputContainer>
     )
 }
+
+const TextInput = styled(TextInputBox)`
+`
 
 export default TextInput

@@ -8,3 +8,10 @@
 - yarn
 - webpack
 - typescript
+
+
+
+Styled Component 적용 
+참고 사진 
+[img] 
+

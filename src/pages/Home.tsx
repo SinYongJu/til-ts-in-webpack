@@ -1,7 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-
-
+import TitleH2 from '../components/title/TitleH2';
+import TitleH3 from '../components/title/TitleH3';
+import BodyTemplate from '../template/BodyTemplate';
 interface IWrapper {
    maxWidth?: string
    maxHeight?: string
@@ -13,22 +14,20 @@ const Wrapper =  styled.div<IWrapper>`
    width: ${props => props.width ? props.width : '720px'};
    height: ${props => props.height ? props.height : 'auto'};
    max-width: ${props => props.maxWidth ? props.maxWidth : '720px'};
-   max-height: ${props => props.maxHeight ? props.maxHeight : 'auto'};
+   max-height: ${props => props.maxHeight ? props.maxHeight : 'none'};
 `
 
-const HomeTitle = styled.h2`
-    font-size: 3em;
-    line-height: 1.5em;
-    text-transform: uppercase;
-`
-
-const Home:React.FC = () => {
+const Home:React.FunctionComponent = ({ children,...props}) => {
     return (
-        <Wrapper>
-            <HomeTitle>HOME</HomeTitle>
-            <Wrapper height={"740px"} maxWidth={'400px'} maxHeight={"400px"}>
+        <BodyTemplate {...props}>
+            <TitleH2>HOME</TitleH2>
+            <Wrapper height={"740px"} maxHeight={"400px"}>
+                <TitleH3>Contents Title</TitleH3>
             </Wrapper>
-        </Wrapper>
+        </BodyTemplate>
     );
 };
-export default Home;
+
+export default styled(Home)`
+    background-color:blue
+`;

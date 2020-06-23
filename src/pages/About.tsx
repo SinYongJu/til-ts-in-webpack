@@ -1,9 +1,12 @@
 import * as React from 'react';
+import TitleH2 from '../components/title/TitleH2';
 
 const About:React.FC = () => {
     return (
         <div>
-            <h2>About</h2>
+            <TitleH2>About</TitleH2>
+
+
         </div>
     );
 };
