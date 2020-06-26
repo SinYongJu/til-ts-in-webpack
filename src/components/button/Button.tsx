@@ -1,36 +1,36 @@
 import * as React from 'react';
-import styled, { StyledComponent } from 'styled-components';
+import styled, {css} from 'styled-components';
+import { StyleTheme , Style, getStyleCss, defualtStyle} from '../../util/styled';
 
-interface ButtonProps {
-    theme? : string,
+export const BUTTON_THEME_MAPPER = {
+    BLUE : 'blue',
+    BALCK : 'black'
+}
+const DEFAULT_BUTTON_STYLE = css`
+    width: 100%;
+    fontSize: 1em;
+    lineHeight: 2em;
+    textTransform: uppercase;
+`
+const BUTTON_THEME:Style = {
+    [BUTTON_THEME_MAPPER.BLUE] : css`
+        border : 1px solid;
+        border-color : blue;
+        color : blue;
+    `,
+    [BUTTON_THEME_MAPPER.BALCK] : css`
+        border: 1px solid;
+        border-color: #000;
+        color: #555;
+    `,
 }
 
-
-
-interface ButtonStyle {
-    [ key : string ] : any
-}
-const DEFAULT_BUTTON_STYLE:ButtonStyle = {
-    width:'100%',
-    fontSize: '1em',
-    lineHeight: '2em',
-    textTransform: 'uppercase'
-}
-const BUTTON_THEME:ButtonStyle = {
-    'blue' : {
-        border: '1px solid',
-        borderColor: 'blue',
-        color: 'blue'
-    },
-    'black' : {
-        border: '1px solid',
-        borderColor: '#000',
-        color: '#555'
-    }
-}
-
-const getStyleCss =(theme:ButtonProps) => ({...DEFAULT_BUTTON_STYLE,...BUTTON_THEME[theme as keyof ButtonStyle]})
-const Button = styled.button<ButtonProps>(({theme})=>getStyleCss(theme))
+const buttonStyle = getStyleCss(DEFAULT_BUTTON_STYLE as defualtStyle, BUTTON_THEME)
+const Button = styled.button<StyleTheme>`
+    ${({theme})=>buttonStyle(theme)}
+    
+};
+`
 
 
 export default Button;

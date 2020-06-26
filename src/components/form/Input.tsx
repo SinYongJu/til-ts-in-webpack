@@ -4,7 +4,6 @@ import styled from 'styled-components';
 export interface InputProps {
     id: string
     error: boolean
-    // className?:string
     placeHolder?: string
     name?: string
     type?: string

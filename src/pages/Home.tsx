@@ -3,31 +3,18 @@ import styled from 'styled-components';
 import TitleH2 from '../components/title/TitleH2';
 import TitleH3 from '../components/title/TitleH3';
 import BodyTemplate from '../template/BodyTemplate';
-interface IWrapper {
-   maxWidth?: string
-   maxHeight?: string
-   width?: string
-   height?: string
-}
-const Wrapper =  styled.div<IWrapper>`
-   margin: 0 auto;
-   width: ${props => props.width ? props.width : '720px'};
-   height: ${props => props.height ? props.height : 'auto'};
-   max-width: ${props => props.maxWidth ? props.maxWidth : '720px'};
-   max-height: ${props => props.maxHeight ? props.maxHeight : 'none'};
-`
+import Wrapper from '../components/wrapper/Wrapper';
+
 
 const Home:React.FunctionComponent = ({ children,...props}) => {
     return (
         <BodyTemplate {...props}>
             <TitleH2>HOME</TitleH2>
-            <Wrapper height={"740px"} maxHeight={"400px"}>
+            <Wrapper width="100%" height="740" maxHeight="400">
                 <TitleH3>Contents Title</TitleH3>
             </Wrapper>
         </BodyTemplate>
     );
 };
 
-export default styled(Home)`
-    background-color:blue
-`;
+export default styled(Home)``;
