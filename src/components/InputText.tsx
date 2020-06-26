@@ -10,10 +10,6 @@ interface TextInputProps{
     input : InputProps,
 }
 
-export const TEXT_INPUT_MAPPER = {
-    SMIPLE : 'simple',
-    BORDER : 'border',
-}
 const InputContainer = styled(Wrapper)``
 const WrapInput = styled(Wrapper)`
     overflow:hidden;    

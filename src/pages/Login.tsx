@@ -4,6 +4,8 @@ import InputText from '../components/InputText'
 import TitleH2 from '../components/title/TitleH2';
 import Button, { BUTTON_THEME_MAPPER } from '../components/button/Button';
 import Wrapper from '../components/wrapper/Wrapper';
+import { INPUT_THEME_MAPPER } from '../components/form/Input';
+import Label from '../components/form/Label';
 
 
 interface LoginProps {
@@ -18,7 +20,8 @@ interface ILoginInput {
     onChange : Function
     value: string
     type?: string
-    placeHolder ?: string
+    placeholder ?: string,
+    theme: string 
 }
 interface ILoginPageInfo {
     userName : ILoginInput
@@ -34,7 +37,7 @@ const LoginContainer = styled(Wrapper).attrs({className : 'login_container'})`
     .tf_login{
         margin: 10px 0;
     }
-    ${InputText} label {
+    ${InputText} ${Label} {
         width: 100px;
     }
     ${Button}{
@@ -61,18 +64,20 @@ const Login:React.FC<LoginProps> = ({children, className, ...props}) => {
                 id:"ftId",
                 name: 'userName',
                 error:false,
-                placeHolder:'id',
+                placeholder:'id',
                 onChange,
-                value:''
+                value:'',
+                theme: INPUT_THEME_MAPPER.SMIPLE
             },
             password : {
                 id:"ftPwd",
                 name: 'password',
                 type:'password',
                 error:false,
-                placeHolder:'id',
+                placeholder:'password',
                 onChange,
-                value: ''
+                value: '',
+                theme: INPUT_THEME_MAPPER.SMIPLE
             }
         }
    )
@@ -80,7 +85,6 @@ const Login:React.FC<LoginProps> = ({children, className, ...props}) => {
   
     const onSubmit = (event:React.FormEvent) => {
         event.preventDefault()
-        console.dir(event.currentTarget)
         if( loginInfo.userName.value.length < 8){
             setLoginInfo((info)=>{
                 info.userName.error = true
@@ -112,8 +116,8 @@ const Login:React.FC<LoginProps> = ({children, className, ...props}) => {
                     <legend>login form</legend>
                     <InputText input={loginInfo.userName} className="tf_login">ID</InputText>
                     <InputText input={loginInfo.password} className="tf_login">password</InputText>
-                    <Button theme={BUTTON_THEME_MAPPER.BLUE}>Login</Button>
-                    <Button theme={BUTTON_THEME_MAPPER.BALCK}>SIGN UP</Button>
+                    <Button theme={BUTTON_THEME_MAPPER.BLUE} type="submit">Login</Button>
+                    <Button theme={BUTTON_THEME_MAPPER.BALCK} type="button">SIGN UP</Button>
                 </fieldset>
             </form>
         </LoginContainer>
