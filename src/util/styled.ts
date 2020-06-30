@@ -6,5 +6,6 @@ export interface Style {
 }
 export type defualtStyle = Array<string>
 export const getStyleCss =(defaultStyle:defualtStyle,styleTheme:Style) => (theme:StyleTheme) => {
-    return ([...defaultStyle,...styleTheme[theme as keyof Style]])
+    if(styleTheme[theme as keyof Style]) return ([...defaultStyle,...styleTheme[theme as keyof Style]])
+    return {}
 }

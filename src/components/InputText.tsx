@@ -4,10 +4,11 @@ import Input, { InputProps } from './form/Input';
 import Label from './form/Label';
 import Wrapper from './wrapper/Wrapper';
 
-interface TextInputProps{
-    children ?: React.ReactChild,
-    className ?: string,
-    input : InputProps,
+interface TextInputProps extends InputProps{
+    children ?: React.ReactChild
+    className ?: string
+    value : string
+    [handler : string] : any
 }
 
 const InputContainer = styled(Wrapper)``
@@ -17,12 +18,12 @@ const WrapInput = styled(Wrapper)`
 const TextInputLabel = styled(Label)`
     float:left;
 `
-const TextInput:React.FC<TextInputProps> = ({children, className, input, ...props}) => {
+const TextInput:React.FC<TextInputProps> = ({children, className, ...props}) => {
     return (
-        <InputContainer className={className} {...props}>
-           <TextInputLabel htmlFor={input.id}>{children}</TextInputLabel>
+        <InputContainer className={className}>
+           <TextInputLabel htmlFor={props.id}>{children}</TextInputLabel>
            <WrapInput className="wrap_input">
-            <Input {...input}/>
+            <Input {...props}/>
            </WrapInput>
         </InputContainer>
     )

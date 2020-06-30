@@ -30,7 +30,7 @@ const INPUT_THEME = {
 }
 const inputStyle = getStyleCss(DEFAULT_INPUT_STYLE as defualtStyle, INPUT_THEME)
 const Input = styled.input<InputProps>`
-    ${({theme})=>inputStyle(theme)}
+    ${({theme})=> inputStyle(theme)}
 `
 
 export default Input;

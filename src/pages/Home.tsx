@@ -7,6 +7,7 @@ import Store from '../store';
 import Count from '../components/Count';
 import CountT from '../components/CountT';
 import Timer from '../components/Timer';
+import Todo from '../components/Todo/Todo';
 
 interface IHomeProps {
     store?: Store
@@ -23,6 +24,7 @@ class Home extends React.Component <IHomeProps>{
                     <TitleH2>HOME</TitleH2>
                     <Wrapper width="100%" height="740" maxHeight="400">
                         <TitleH3>Contents Title</TitleH3>
+                        <Todo/>
                     </Wrapper>
                     <Count/>
                     <CountT/>

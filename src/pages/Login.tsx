@@ -114,8 +114,8 @@ const Login:React.FC<LoginProps> = ({children, className, ...props}) => {
                 <TitleH2>{children}</TitleH2>
                 <fieldset>
                     <legend>login form</legend>
-                    <InputText input={loginInfo.userName} className="tf_login">ID</InputText>
-                    <InputText input={loginInfo.password} className="tf_login">password</InputText>
+                    <InputText {...loginInfo.userName} className="tf_login">ID</InputText>
+                    <InputText {...loginInfo.password} className="tf_login">password</InputText>
                     <Button theme={BUTTON_THEME_MAPPER.BLUE} type="submit">Login</Button>
                     <Button theme={BUTTON_THEME_MAPPER.BALCK} type="button">SIGN UP</Button>
                 </fieldset>
