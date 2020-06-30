@@ -3,8 +3,11 @@ import InputText from '../InputText';
 import Input, { INPUT_THEME_MAPPER, InputProps } from '../form/Input';
 import TodoList from "./TodoList";
 import styled from 'styled-components';
+import { observer, inject } from 'mobx-react';
+import { ITodoStore } from '../../store/Todo/Todo';
 type TodoProps = {
-    className ?: string
+    className ?: string,
+    todo?: ITodoStore
 }
 type TodoState = {
     value : string,
@@ -24,6 +27,14 @@ const TodoInputText = styled(InputText)`
     } 
 `
 // React.Component<{props}, {state}}>
+
+@inject(({store}) => {
+    console.log(store)
+    return {
+        todo : store.todo
+    }
+})
+@observer
 class Todo extends React.Component<TodoProps,TodoState>{
     state :TodoState = {
         value : ''
@@ -34,6 +45,11 @@ class Todo extends React.Component<TodoProps,TodoState>{
     onKeyPress(event : React.KeyboardEvent<HTMLInputElement>){
         if(event.charCode === 13 && this.state.value.length > 0){
             console.log('create')
+            this.props.todo.createTodo({
+                id : 'sdsdsd',
+                desc : this.state.value,
+                timeStamp : 'sdasd191919'
+            })
         }
     }
     onChange(event : React.ChangeEvent<HTMLInputElement>){
@@ -47,27 +63,18 @@ class Todo extends React.Component<TodoProps,TodoState>{
     }
     render(){
         const {onChange, state : {value}} = this
+        const { todo } = this.props
         const inputs = {
             ...inputTodo,
             value,
             onChange: onChange.bind(this)
         }
+        console.log(todo.todoList)
         return (
             <div className={this.props.className}>
                 <strong>Todo Component</strong>
                 <TodoInputText  {...inputs} onKeyPress={this.onKeyPress.bind(this)}/>
-                <TodoList todolist={[
-                    {   
-                        id : 'todo__0__',
-                        desc : 'skdnalskndlaksndlks',
-                        timeStamp : '00:00:00 2020.02.02'
-                    },
-                    {   
-                        id : 'todo__1__',
-                        desc : 'skdnalskndlaksndlkssdasdasdasdasdasdas',
-                        timeStamp : '00:00:00 2020.02.04'
-                    }
-                ]}/>
+                <TodoList todolist={todo.todoList}/>
             </div>
         );
     }
