@@ -10,6 +10,9 @@ interface TimerProps{
 
 
 
+const TimerTitle = styled(TitleH3)`
+font-size: 48px
+`
 // @inject((store) => store)
 // @observer
 class Timer extends React.Component<TimerProps>{
@@ -42,13 +45,11 @@ class Timer extends React.Component<TimerProps>{
     }
     render(){
         return (
-            <TitleH3 {...this.props}>
+            <TimerTitle>
                 {this.state.hh} : {this.state.mm} : {this.state.ss}        
-            </TitleH3>
+            </TimerTitle>
         );
     }
 };
 
-export default React.memo(styled(Timer)`
-    font-size: 78px
-`);
+export default React.memo(Timer);
