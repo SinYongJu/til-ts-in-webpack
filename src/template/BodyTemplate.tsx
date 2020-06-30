@@ -17,7 +17,7 @@ const StyledBox = styled(Boxed)`
     background-color:red;
 `
 
-const BodyTemplateBox:React.FunctionComponent = ({children, ...props}) => {
+const BodyTemplate:React.FunctionComponent = ({children, ...props}) => {
     return (
         <div className="od"{...props}>
         <Box>
@@ -28,9 +28,5 @@ const BodyTemplateBox:React.FunctionComponent = ({children, ...props}) => {
     );
 };
 
-const BodyTemplate = styled(BodyTemplateBox)`
-    background-color:red;
-`
-console.log(BodyTemplate)
 
-export default BodyTemplate;
+export default  BodyTemplate;

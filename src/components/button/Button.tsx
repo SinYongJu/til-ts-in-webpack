@@ -28,7 +28,6 @@ const BUTTON_THEME:Style = {
 const buttonStyle = getStyleCss(DEFAULT_BUTTON_STYLE as defualtStyle, BUTTON_THEME)
 const Button = styled.button<StyleTheme>`
     ${({theme})=>buttonStyle(theme)}
-    
 };
 `
 

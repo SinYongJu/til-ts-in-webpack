@@ -18,6 +18,8 @@
     "@types/styled-components": "^5.1.0",
     "@types/webpack": "^4.41.17",
     "css-loader": "^3.6.0",
+    "mobx": "^5.15.4",
+    "mobx-react": "^6.2.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
