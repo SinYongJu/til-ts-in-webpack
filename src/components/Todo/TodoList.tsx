@@ -4,26 +4,34 @@ import Button, { BUTTON_THEME_MAPPER } from '../button/Button';
 import styled from 'styled-components';
 import TodoItem from "./TodoItem";
 type TodoListProps = {
-    todolist: Array<{}>
+    className? : string
+    todolist: Array<TodoItem>
+    deleteTodo : (id:string) => void,
+    updateTodo : (id:string,value:string) => void
+    checkTodo : (id:string, checked:boolean) => void
 }
 
 export type TodoItem = {
-    id : string,desc: string, timeStamp : string
+    id : string,desc: string, timeStamp : string, done? : boolean
 }
 
 const TodoList:React.FunctionComponent<TodoListProps> = (props) => {
-    const { todolist } = props
+    const { todolist, deleteTodo , updateTodo, checkTodo } = props
     const onDoubleClickToModify = (id : string) => (event: React.MouseEvent<HTMLLIElement>) : void => {
-        console.log(id)
         const value:string = prompt('Update Todo')
-        console.log(value)
+        if(value !== null) updateTodo(id, value)
     }
     const onClickToDelete = (id : string) => (event: React.MouseEvent<HTMLButtonElement>) : void => {
-        console.log(id)
+        deleteTodo(id)
     }
+    const onCheckTodo = (id: string) =>(event: React.ChangeEvent<HTMLInputElement>):void => {
+        checkTodo(id, event.target.checked)
+    }
+    // let list = React.useMemo(() => ,[todolist])
+    
     return (
-        <ul>
-          {todolist.map((item : TodoItem, index) => <TodoItem key={`${item.id}__${index}`} item={{...item}} onClick={onClickToDelete(item.id)} onDoubleClick={onDoubleClickToModify(item.id)}/>)}
+        <ul className={props.className}>
+          {todolist.map((item : TodoItem, index) => <TodoItem key={`${item.id}__${index}`} item={{...item}} onClickDelete={onClickToDelete(item.id)} onClickModify={onDoubleClickToModify(item.id)} onCheckTodo={onCheckTodo(item.id)}/>)}
         </ul>
     );
 };
@@ -31,4 +39,8 @@ const TodoList:React.FunctionComponent<TodoListProps> = (props) => {
 TodoList.defaultProps = {
     todolist : []
 }
-export default TodoList;
+export default React.memo(styled(TodoList)`
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: 200px;
+`);

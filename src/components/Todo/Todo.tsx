@@ -28,12 +28,9 @@ const TodoInputText = styled(InputText)`
 `
 // React.Component<{props}, {state}}>
 
-@inject(({store}) => {
-    console.log(store)
-    return {
-        todo : store.todo
-    }
-})
+@inject(({store}) => ({
+    todo : store.todo
+}))
 @observer
 class Todo extends React.Component<TodoProps,TodoState>{
     state :TodoState = {
@@ -42,24 +39,29 @@ class Todo extends React.Component<TodoProps,TodoState>{
     constructor(props:TodoProps){
         super(props)
     }
-    onKeyPress(event : React.KeyboardEvent<HTMLInputElement>){
-        if(event.charCode === 13 && this.state.value.length > 0){
-            console.log('create')
-            this.props.todo.createTodo({
-                id : 'sdsdsd',
-                desc : this.state.value,
-                timeStamp : 'sdasd191919'
-            })
-        }
-    }
-    onChange(event : React.ChangeEvent<HTMLInputElement>){
-        let value:string = event.target.value
+    setStateValue(value:string){
         this.setState(state => {
             this.state.value = value
             return {
                 ...state,
             }
         })
+    }
+    onKeyPress(event : React.KeyboardEvent<HTMLInputElement>):void{
+        if(event.charCode === 13 && this.state.value.length > 0){
+            const { todo } = this.props
+            todo.createTodo({
+                id : todo.getTodoId,
+                desc : this.state.value,
+                timeStamp : String(Date.now()),
+                done: false
+            })
+            this.setStateValue('')
+        }
+    }
+    onChange(event : React.ChangeEvent<HTMLInputElement>):void{
+        let value:string = event.target.value
+        this.setStateValue(value)
     }
     render(){
         const {onChange, state : {value}} = this
@@ -69,12 +71,26 @@ class Todo extends React.Component<TodoProps,TodoState>{
             value,
             onChange: onChange.bind(this)
         }
-        console.log(todo.todoList)
         return (
             <div className={this.props.className}>
                 <strong>Todo Component</strong>
+                <p>
+                    <em>total todo</em> : { todo.todoListLength }
+                </p>
+                <p>
+                    <em>progressed</em> : { todo.selectedLength} / {todo.todoListLength }
+                </p>
+                <p>
+                    [ {todo.selectedListJoinByComma} ]
+                </p>
                 <TodoInputText  {...inputs} onKeyPress={this.onKeyPress.bind(this)}/>
-                <TodoList todolist={todo.todoList}/>
+                <TodoList 
+                    todolist={todo.todoList}
+                    deleteTodo={todo.deleteTodo}
+                    updateTodo={todo.updateTodo}
+                    checkTodo={todo.checkTodo}
+                />
+                
             </div>
         );
     }

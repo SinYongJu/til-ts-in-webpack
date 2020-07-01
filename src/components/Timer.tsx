@@ -3,40 +3,43 @@ import Store from '../store';
 import { observer, inject } from 'mobx-react'
 import TitleH3 from './title/TitleH3';
 import styled from 'styled-components';
+import * as dateHelper from '../util/date'
 
 interface TimerProps{
     store ?: Store
 }
 
+interface TimerState {
+    hh : string | number
+    mm : string | number
+    ss : string | number
+}
 
 
 const TimerTitle = styled(TitleH3)`
 font-size: 48px
 `
+
 // @inject((store) => store)
 // @observer
-class Timer extends React.Component<TimerProps>{
+class Timer extends React.Component<TimerProps,TimerState>{
     state = {
-        hh : this.getCurrentTime().hh,
-        mm : this.getCurrentTime().mm,
-        ss : this.getCurrentTime().ss
+        ...dateHelper.getCurrentTime()
     }
-    getCurrentTime(){
-        let hh = new Date().getHours()
-        let mm = new Date().getMinutes()
-        let ss = new Date().getSeconds()
-        return {
-            hh : hh < 10 ? `0${hh}` : hh,
-            mm : mm < 10 ? `0${mm}` : mm,
-            ss : ss < 10 ? `0${ss}` : ss
-        }
-    }
+    // getCurrentTime(){
+    //     let hh = new Date().getHours()
+    //     let mm = new Date().getMinutes()
+    //     let ss = new Date().getSeconds()
+    //     return {
+    //         hh : hh < 10 ? `0${hh}` : hh,
+    //         mm : mm < 10 ? `0${mm}` : mm,
+    //         ss : ss < 10 ? `0${ss}` : ss
+    //     }
+    // }
     timer () {
         setInterval((timeStamp)=>{
             this.setState({
-                hh : this.getCurrentTime().hh,
-                mm : this.getCurrentTime().mm,
-                ss : this.getCurrentTime().ss
+                ...dateHelper.getCurrentTime()
             })
         },1000)
     }
